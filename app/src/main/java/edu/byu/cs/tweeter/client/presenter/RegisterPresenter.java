@@ -9,6 +9,7 @@ import java.util.Base64;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.RegisterTask;
 import edu.byu.cs.tweeter.client.view.login.RegisterFragment;
@@ -18,7 +19,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 public class RegisterPresenter {
 
     public interface View {
-        void loginNewUser(User user, AuthToken authToken);
+        void loginNewUser(User user, AuthToken authToken, String message);
         void displayErrorMessage(String message);
     }
 
@@ -38,7 +39,7 @@ public class RegisterPresenter {
 
         @Override
         public void handleSuccess(User user, AuthToken authToken) {
-            view.loginNewUser(user, authToken);
+            view.loginNewUser(user, authToken, "Hello " + Cache.getInstance().getCurrUser().getName());
         }
 
         @Override
@@ -70,5 +71,10 @@ public class RegisterPresenter {
         if (imageToUpload == null) {
             throw new IllegalArgumentException("Profile image must be uploaded.");
         }
+    }
+
+    public void setCache(User registeredUser, AuthToken authToken) {
+        Cache.getInstance().setCurrUser(registeredUser);
+        Cache.getInstance().setCurrUserAuthToken(authToken);
     }
 }

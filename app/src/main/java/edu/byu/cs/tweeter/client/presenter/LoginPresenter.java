@@ -2,13 +2,14 @@ package edu.byu.cs.tweeter.client.presenter;
 
 import android.widget.EditText;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class LoginPresenter {
 
     public interface View {
-        void successfulLogin(User user);
+        void successfulLogin(User user, String message);
         void displayErrorMessage(String message);
     }
 
@@ -28,7 +29,7 @@ public class LoginPresenter {
 
         @Override
         public void handleSuccess(User user) {
-            view.successfulLogin(user);
+            view.successfulLogin(user, "Hello " + Cache.getInstance().getCurrUser().getName());
         }
 
         @Override

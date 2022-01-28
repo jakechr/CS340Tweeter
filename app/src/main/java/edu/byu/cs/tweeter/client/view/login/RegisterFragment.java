@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,17 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import java.util.Base64;
-import java.io.ByteArrayOutputStream;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import edu.byu.cs.client.R;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.RegisterTask;
-import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.presenter.RegisterPresenter;
 import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
@@ -129,17 +119,16 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
     }
 
     @Override
-    public void loginNewUser(User registeredUser, AuthToken authToken) {
+    public void loginNewUser(User registeredUser, AuthToken authToken, String message) {
         Intent intent = new Intent(getContext(), MainActivity.class);
 
-        Cache.getInstance().setCurrUser(registeredUser);
-        Cache.getInstance().setCurrUserAuthToken(authToken);
+        presenter.setCache(registeredUser, authToken);
 
         intent.putExtra(MainActivity.CURRENT_USER_KEY, registeredUser);
 
         registeringToast.cancel();
 
-        Toast.makeText(getContext(), "Hello " + Cache.getInstance().getCurrUser().getName(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
         try {
             startActivity(intent);
         } catch (Exception e) {
