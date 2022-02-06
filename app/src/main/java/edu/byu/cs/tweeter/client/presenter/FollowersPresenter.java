@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersTask;
+import edu.byu.cs.tweeter.client.model.service.observer.GetItemObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowersPresenter {
@@ -48,8 +49,8 @@ public class FollowersPresenter {
         this.followService = new FollowService();
     }
 
-    public void getUsers(String userAlias) {
-        followService.getUsers(userAlias, new GetUserObserver());
+    public void getUser(String userAlias) {
+        followService.getUser(userAlias, new GetUserObserver());
     }
 
     public void loadMoreItems(User user) {
@@ -83,7 +84,7 @@ public class FollowersPresenter {
         }
     }
 
-    public class GetUserObserver implements FollowService.GetUserObserver {
+    public class GetUserObserver implements GetItemObserver<User> {
 
         @Override
         public void handleSuccess(User user) {

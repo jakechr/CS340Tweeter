@@ -9,28 +9,21 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.FollowTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersCountTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingCountTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingTask;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetUserTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.IsFollowerTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
 import edu.byu.cs.tweeter.client.presenter.MainPresenter;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class FollowService {
+public class FollowService extends BaseService {
 
     public interface GetFollowingObserver {
         void handleSuccess(List<User> followees, boolean hasMorePages);
-        void handleError(String message);
-    }
-
-    public interface GetUserObserver {
-        void handleSuccess(User user);
         void handleError(String message);
     }
 
@@ -62,39 +55,6 @@ public class FollowService {
     public interface IsFollowerObserver {
         void handleSuccess(boolean isFollower);
         void handleError(String message);
-    }
-
-    public void getUsers(String userAlias, GetUserObserver getUserObserver) {
-        GetUserTask getUserTask = new GetUserTask(Cache.getInstance().getCurrUserAuthToken(),
-                userAlias, new GetUserHandler(getUserObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(getUserTask);
-    }
-
-    /**
-     * Message handler (i.e., observer) for GetUserTask.
-     */
-    private class GetUserHandler extends Handler {
-        private GetUserObserver observer;
-
-        public GetUserHandler(GetUserObserver observer) {
-            this.observer = observer;
-        }
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            boolean success = msg.getData().getBoolean(GetUserTask.SUCCESS_KEY);
-            if (success) {
-                User user = (User) msg.getData().getSerializable(GetUserTask.USER_KEY);
-                observer.handleSuccess(user);
-            } else if (msg.getData().containsKey(GetUserTask.MESSAGE_KEY)) {
-                String message = msg.getData().getString(GetUserTask.MESSAGE_KEY);
-                observer.handleError(message);
-            } else if (msg.getData().containsKey(GetUserTask.EXCEPTION_KEY)) {
-                Exception ex = (Exception) msg.getData().getSerializable(GetUserTask.EXCEPTION_KEY);
-                observer.handleError("Failed to get user's profile because of exception: " + ex);
-            }
-        }
     }
 
 

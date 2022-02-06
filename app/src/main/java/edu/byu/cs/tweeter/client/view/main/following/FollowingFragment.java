@@ -134,7 +134,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    presenter.getUsers(userAlias.getText().toString());
+                    presenter.getUser(userAlias.getText().toString());
                     Toast.makeText(getContext(), "Getting user's profile...", Toast.LENGTH_LONG).show();
                 }
             });
