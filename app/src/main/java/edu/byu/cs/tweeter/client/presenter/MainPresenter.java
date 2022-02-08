@@ -11,6 +11,7 @@ import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.client.model.service.UserService;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleItemObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -210,24 +211,26 @@ public class MainPresenter {
         }
     }
 
-    public class GetFollowersCountObserver implements FollowService.GetFollowersCountObserver {
+    public class GetFollowersCountObserver implements SimpleItemObserver<Integer> {
 
         @Override
-        public void handleSuccess(int count) {
-            view.handleGetFollowersCountSuccess(count);
+        public void handleSuccess(Integer responseItem) {
+            view.handleGetFollowersCountSuccess(responseItem);
         }
 
         @Override
         public void handleError(String message) {
             view.handleError(message);
         }
+
+
     }
 
-    public class GetFollowingCountObserver implements FollowService.GetFollowingCountObserver {
+    public class GetFollowingCountObserver implements SimpleItemObserver<Integer> {
 
         @Override
-        public void handleSuccess(int count) {
-            view.handleGetFollowingCountSuccess(count);
+        public void handleSuccess(Integer responseItem) {
+            view.handleGetFollowingCountSuccess(responseItem);
         }
 
         @Override

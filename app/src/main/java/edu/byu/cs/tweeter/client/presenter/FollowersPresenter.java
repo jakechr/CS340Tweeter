@@ -1,13 +1,10 @@
 package edu.byu.cs.tweeter.client.presenter;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersTask;
-import edu.byu.cs.tweeter.client.model.service.observer.GetItemObserver;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleItemObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowersPresenter {
@@ -84,7 +81,7 @@ public class FollowersPresenter {
         }
     }
 
-    public class GetUserObserver implements GetItemObserver<User> {
+    public class GetUserObserver implements SimpleItemObserver<User> {
 
         @Override
         public void handleSuccess(User user) {

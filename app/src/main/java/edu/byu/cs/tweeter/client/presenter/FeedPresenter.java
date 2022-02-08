@@ -5,7 +5,7 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
-import edu.byu.cs.tweeter.client.model.service.observer.GetItemObserver;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleItemObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -61,7 +61,7 @@ public class FeedPresenter {
         }
     }
 
-    public class GetUserObserver implements GetItemObserver<User> {
+    public class GetUserObserver implements SimpleItemObserver<User> {
 
         @Override
         public void handleSuccess(User user) {

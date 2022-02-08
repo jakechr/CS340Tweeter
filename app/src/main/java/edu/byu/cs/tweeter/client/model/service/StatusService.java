@@ -17,7 +17,7 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class StatusService extends BaseService{
+public class StatusService extends PagedService {
 
     public interface GetFeedObserver {
         void handleSuccess(List<Status> statuses, boolean hasMorePages);
@@ -37,15 +37,13 @@ public class StatusService extends BaseService{
     public void loadMoreItems(AuthToken currUserAuthToken, User user, int pageSize, Status lastStatus, GetFeedObserver getFeedObserver) {
         GetFeedTask getFeedTask = new GetFeedTask(currUserAuthToken,
                 user, pageSize, lastStatus, new GetFeedHandler(getFeedObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(getFeedTask);
+        executeTask(getFeedTask);
     }
 
     public void loadMoreStoryItems(AuthToken currUserAuthToken, User user, int pageSize, Status lastStatus, GetStoryObserver getStoryObserver) {
         GetStoryTask getStoryTask = new GetStoryTask(currUserAuthToken,
                 user, pageSize, lastStatus, new GetStoryHandler(getStoryObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(getStoryTask);
+        executeTask(getStoryTask);
     }
 
     /**
