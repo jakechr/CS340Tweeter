@@ -12,6 +12,7 @@ import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleItemObserver;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleNotificationObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -144,7 +145,7 @@ public class MainPresenter {
     }
 
 
-    public class UnfollowObserver implements FollowService.UnfollowObserver {
+    public class UnfollowObserver implements SimpleNotificationObserver {
 
         @Override
         public void handleSuccess() {
@@ -158,7 +159,7 @@ public class MainPresenter {
         }
     }
 
-    public class FollowObserver implements FollowService.FollowObserver {
+    public class FollowObserver implements SimpleNotificationObserver {
 
         @Override
         public void handleSuccess() {
@@ -172,11 +173,11 @@ public class MainPresenter {
         }
     }
 
-    public class IsFollowerObserver implements FollowService.IsFollowerObserver {
+    public class IsFollowerObserver implements SimpleItemObserver<Boolean> {
 
         @Override
-        public void handleSuccess(boolean isFollower) {
-            view.handleIsFollowerSuccess(isFollower);
+        public void handleSuccess(Boolean responseItem) {
+            view.handleIsFollowerSuccess(responseItem);
         }
 
         @Override
@@ -185,7 +186,7 @@ public class MainPresenter {
         }
     }
 
-    public class LogoutObserver implements UserService.LogoutObserver {
+    public class LogoutObserver implements SimpleNotificationObserver {
 
         @Override
         public void handleSuccess() {
@@ -198,7 +199,7 @@ public class MainPresenter {
         }
     }
 
-    public class PostStatusObserver implements StatusService.PostStatusObserver {
+    public class PostStatusObserver implements SimpleNotificationObserver {
 
         @Override
         public void handleSuccess() {

@@ -11,8 +11,6 @@ import edu.byu.cs.tweeter.model.domain.User;
  */
 public class GetUserTask extends AuthenticatedTask {
 
-    public static final String USER_KEY = "user";
-
     /**
      * Alias (or handle) for user whose profile is being retrieved.
      */
@@ -37,7 +35,7 @@ public class GetUserTask extends AuthenticatedTask {
 
     @Override
     protected void loadSuccessBundle(Bundle msgBundle) {
-        msgBundle.putSerializable(USER_KEY, user);
+        msgBundle.putSerializable(SIMPLE_ITEM_KEY, user);
     }
 
     private User getUser() {

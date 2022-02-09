@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.PagedObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleItemObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
@@ -74,7 +75,7 @@ public class FeedPresenter {
         }
     }
 
-    public class GetFeedObserver implements StatusService.GetFeedObserver {
+    public class GetFeedObserver implements PagedObserver<Status> {
 
         @Override
         public void handleSuccess(List<Status> statuses, boolean hasMorePages) {

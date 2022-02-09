@@ -8,8 +8,6 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public abstract class GetCountTask extends AuthenticatedTask {
 
-    public static final String COUNT_KEY = "count";
-
     /**
      * The user whose count is being retrieved.
      * (This can be any user, not just the currently logged-in user.)
@@ -41,6 +39,6 @@ public abstract class GetCountTask extends AuthenticatedTask {
 
     @Override
     protected void loadSuccessBundle(Bundle msgBundle) {
-        msgBundle.putInt(COUNT_KEY, count);
+        msgBundle.putInt(SIMPLE_ITEM_KEY, count);
     }
 }

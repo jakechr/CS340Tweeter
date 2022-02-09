@@ -12,14 +12,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.Handler.SimpleNotificationHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LoginTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LogoutTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.RegisterTask;
-import edu.byu.cs.tweeter.client.presenter.MainPresenter;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleNotificationObserver;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class UserService {
+public class UserService extends BaseService {
 
     public interface LoginObserver {
         void handleSuccess(User user);
@@ -29,11 +30,6 @@ public class UserService {
 
     public interface RegisterObserver {
         void handleSuccess(User user, AuthToken authToken);
-        void handleError(String message);
-    }
-
-    public interface LogoutObserver {
-        void handleSuccess();
         void handleError(String message);
     }
 
@@ -119,32 +115,8 @@ public class UserService {
         }
     }
 
-    public void logout(AuthToken currUserAuthToken, MainPresenter.LogoutObserver logoutObserver) {
-        LogoutTask logoutTask = new LogoutTask(currUserAuthToken, new LogoutHandler(logoutObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(logoutTask);
-    }
-
-    // LogoutHandler
-
-    private class LogoutHandler extends Handler {
-        LogoutObserver observer;
-
-        public LogoutHandler(LogoutObserver observer) {
-            this.observer = observer;
-        }
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            boolean success = msg.getData().getBoolean(LogoutTask.SUCCESS_KEY);
-            if (success) {
-                observer.handleSuccess();
-            } else if (msg.getData().containsKey(LogoutTask.MESSAGE_KEY)) {
-                String message = msg.getData().getString(LogoutTask.MESSAGE_KEY);
-                observer.handleError("Failed to logout: " + message);
-            } else if (msg.getData().containsKey(LogoutTask.EXCEPTION_KEY)) {
-                Exception ex = (Exception) msg.getData().getSerializable(LogoutTask.EXCEPTION_KEY);
-                observer.handleError("Failed to logout because of exception: " + ex.getMessage());
-            }
-        }
+    public void logout(AuthToken currUserAuthToken, SimpleNotificationObserver logoutObserver) {
+        LogoutTask logoutTask = new LogoutTask(currUserAuthToken, new SimpleNotificationHandler(logoutObserver));
+        executeTask(logoutTask);
     }
 }
