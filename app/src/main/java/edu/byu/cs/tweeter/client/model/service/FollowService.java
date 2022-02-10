@@ -1,8 +1,5 @@
 package edu.byu.cs.tweeter.client.model.service;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.FollowTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersCountTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersTask;
@@ -43,16 +40,14 @@ public class FollowService extends PagedService {
     public void follow(AuthToken currUserAuthToken, User selectedUser, SimpleNotificationObserver followObserver) {
         FollowTask followTask = new FollowTask(currUserAuthToken,
                 selectedUser, new SimpleNotificationHandler(followObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(followTask);
+        executeTask(followTask);
     }
 
 
     public void isFollower(AuthToken currUserAuthToken, User selectedUser, User currUser, SimpleItemObserver<Boolean> isFollowerObserver) {
         IsFollowerTask isFollowerTask = new IsFollowerTask(currUserAuthToken,
                currUser, selectedUser, new SimpleItemHandler<>(isFollowerObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(isFollowerTask);
+        executeTask(isFollowerTask);
     }
 
     public void getFollowersCount(AuthToken currUserAuthToken, User selectedUser, SimpleItemObserver<Integer> getFollowersCountObserver) {

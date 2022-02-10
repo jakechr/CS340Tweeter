@@ -9,8 +9,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 public class PagedService extends BaseService {
 
     public void getUser(String userAlias, SimpleItemObserver<User> getUserObserver) {
-        GetUserTask getUserTask = new GetUserTask(Cache.getInstance().getCurrUserAuthToken(),
-                userAlias, new SimpleItemHandler(getUserObserver));
+        GetUserTask getUserTask = new GetUserTask(Cache.getInstance().getCurrUserAuthToken(), userAlias, new SimpleItemHandler(getUserObserver));
         executeTask(getUserTask);
     }
 }

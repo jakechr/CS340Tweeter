@@ -4,6 +4,7 @@ import android.widget.EditText;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.UserService;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleItemObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class LoginPresenter {
@@ -25,7 +26,7 @@ public class LoginPresenter {
         userService.login(userAlias, password, new LoginObserver());
     }
 
-    public class LoginObserver implements UserService.LoginObserver {
+    public class LoginObserver implements SimpleItemObserver<User> {
 
         @Override
         public void handleSuccess(User user) {
@@ -33,12 +34,7 @@ public class LoginPresenter {
         }
 
         @Override
-        public void handleFailure(String message) {
-            view.displayErrorMessage(message);
-        }
-
-        @Override
-        public void handleException(String message) {
+        public void handleError(String message) {
             view.displayErrorMessage(message);
         }
     }

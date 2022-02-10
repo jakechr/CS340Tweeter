@@ -119,10 +119,8 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
     }
 
     @Override
-    public void loginNewUser(User registeredUser, AuthToken authToken, String message) {
+    public void loginNewUser(User registeredUser, String message) {
         Intent intent = new Intent(getContext(), MainActivity.class);
-
-        presenter.setCache(registeredUser, authToken);
 
         intent.putExtra(MainActivity.CURRENT_USER_KEY, registeredUser);
 
