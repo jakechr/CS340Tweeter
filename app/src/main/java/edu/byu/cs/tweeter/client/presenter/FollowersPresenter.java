@@ -4,62 +4,31 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.FollowService;
+import edu.byu.cs.tweeter.client.model.service.PagedService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.PagedObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleItemObserver;
+import edu.byu.cs.tweeter.client.presenter.View.PagedView;
+import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class FollowersPresenter {
-    private static final int PAGE_SIZE = 10;
+public class FollowersPresenter extends PagedPresenter<User> {
+    FollowService followService;
 
-    private User lastFollower;
 
-    private boolean hasMorePages;
-    private boolean isLoading = false;
-
-    public boolean hasMorePages() {
-        return hasMorePages;
-    }
-
-    public void setHasMorePages(boolean hasMorePages) {
-        this.hasMorePages = hasMorePages;
-    }
-
-    public boolean isLoading() {
-        return isLoading;
-    }
-
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
-
-    public interface View {
-        void displayErrorMessage(String message);
-        void redirectUser(User user);
-        void setLoadingStatus(boolean status);
-        void addFollowers(List<User> followers);
-    }
-
-    private View view;
-    private FollowService followService;
-
-    public FollowersPresenter(View view) {
-        this.view = view;
+    public FollowersPresenter(PagedView<User> view) {
+        super(view);
         this.followService = new FollowService();
     }
 
-    public void getUser(String userAlias) {
-        followService.getUser(userAlias, new GetUserObserver());
+    @Override
+    void getItems(AuthToken authToken, User targetUser, int pageSize, User lastItem) {
+        followService.getFollowers(authToken, targetUser, pageSize, lastItem, new GetFollowersObserver());
     }
 
-    public void loadMoreItems(User user) {
-        if (!isLoading) {   // This guard is important for avoiding a race condition in the scrolling code.
-            isLoading = true;
-            view.setLoadingStatus(true);
-
-            followService.getFollowers(Cache.getInstance().getCurrUserAuthToken(), user, PAGE_SIZE, lastFollower, new GetFollowersObserver());
-        }
+    @Override
+    String getDescription() {
+        return "Failed to get user ";
     }
-
 
     public class GetFollowersObserver implements PagedObserver<User> {
 
@@ -68,10 +37,10 @@ public class FollowersPresenter {
             isLoading = false;
             view.setLoadingStatus(false);
 
-            lastFollower = (followers.size() > 0) ? followers.get(followers.size() - 1) : null;
+            lastItem = (followers.size() > 0) ? followers.get(followers.size() - 1) : null;
             setHasMorePages(hasMorePages);
 
-            view.addFollowers(followers);
+            view.addItems(followers);
         }
 
         @Override
@@ -79,19 +48,6 @@ public class FollowersPresenter {
             isLoading = false;
             view.setLoadingStatus(false);
             view.displayErrorMessage("Failed to get followers " + message);
-        }
-    }
-
-    public class GetUserObserver implements SimpleItemObserver<User> {
-
-        @Override
-        public void handleSuccess(User user) {
-            view.redirectUser(user);
-        }
-
-        @Override
-        public void handleError(String message) {
-            view.displayErrorMessage("Failed to get user " + message);
         }
     }
 }

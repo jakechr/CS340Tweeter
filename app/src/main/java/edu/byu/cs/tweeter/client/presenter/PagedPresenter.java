@@ -65,7 +65,7 @@ public abstract class PagedPresenter<T> extends BasePresenter<PagedView<T>> {
 
         @Override
         public void handleError(String message) {
-            view.displayErrorMessage("Failed to get user " + message);
+            view.displayErrorMessage(getDescription() + message);
         }
     }
 
