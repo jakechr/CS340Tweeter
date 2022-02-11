@@ -78,7 +78,7 @@ public class FollowersPresenter {
         public void handleError(String message) {
             isLoading = false;
             view.setLoadingStatus(false);
-            view.displayErrorMessage(message);
+            view.displayErrorMessage("Failed to get followers " + message);
         }
     }
 
@@ -91,7 +91,7 @@ public class FollowersPresenter {
 
         @Override
         public void handleError(String message) {
-            view.displayErrorMessage(message);
+            view.displayErrorMessage("Failed to get user " + message);
         }
     }
 }

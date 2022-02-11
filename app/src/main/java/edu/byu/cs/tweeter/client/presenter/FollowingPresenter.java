@@ -77,7 +77,7 @@ public class FollowingPresenter {
         public void handleError(String message) {
             isLoading = false;
             view.setLoadingStatus(false);
-            view.displayErrorMessage(message);
+            view.displayErrorMessage("Failed to get following " + message);
         }
     }
 
@@ -90,7 +90,7 @@ public class FollowingPresenter {
 
         @Override
         public void handleError(String message) {
-            view.displayErrorMessage(message);
+            view.displayErrorMessage("Failed to get user " + message);
         }
     }
 }

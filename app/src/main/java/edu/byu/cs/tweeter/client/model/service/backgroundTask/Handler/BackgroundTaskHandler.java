@@ -29,8 +29,7 @@ public abstract class BackgroundTaskHandler<T extends ServiceObserver> extends H
             observer.handleError(message);
         } else if (msg.getData().containsKey(BackgroundTask.EXCEPTION_KEY)) {
             Exception ex = (Exception) msg.getData().getSerializable(BackgroundTask.EXCEPTION_KEY);
-            observer.handleError("Action failed for observer of class " + observer.getClass() +
-                    " because of exception: " + ex.getMessage());
+            observer.handleError("because of exception: " + ex.getMessage());
         }
     }
 

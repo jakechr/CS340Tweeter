@@ -70,7 +70,7 @@ public class StoryPresenter {
 
         @Override
         public void handleError(String message) {
-            view.displayErrorMessage(message);
+            view.displayErrorMessage("Failed to get user " + message);
         }
     }
 
@@ -90,7 +90,7 @@ public class StoryPresenter {
         public void handleError(String message) {
             isLoading = false;
             view.setLoadingStatus(false);
-            view.displayErrorMessage(message);
+            view.displayErrorMessage("Failed to get story " + message);
         }
     }
 

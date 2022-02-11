@@ -155,7 +155,7 @@ public class MainPresenter {
 
         @Override
         public void handleError(String message) {
-            view.handleError(message);
+            view.handleError("Failed to unfollow user " + message);
         }
     }
 
@@ -169,7 +169,7 @@ public class MainPresenter {
 
         @Override
         public void handleError(String message) {
-            view.handleError(message);
+            view.handleError("Failed to get follow user " + message);
         }
     }
 
@@ -182,7 +182,7 @@ public class MainPresenter {
 
         @Override
         public void handleError(String message) {
-            view.handleError(message);
+            view.handleError("Failed to get check if user is follower " + message);
         }
     }
 
@@ -195,7 +195,7 @@ public class MainPresenter {
 
         @Override
         public void handleError(String message) {
-            view.handleError(message);
+            view.handleError("Failed to logout " + message);
         }
     }
 
@@ -208,7 +208,7 @@ public class MainPresenter {
 
         @Override
         public void handleError(String message) {
-            view.handleError(message);
+            view.handleError("Failed to post status " + message);
         }
     }
 
@@ -221,7 +221,7 @@ public class MainPresenter {
 
         @Override
         public void handleError(String message) {
-            view.handleError(message);
+            view.handleError("Failed to get followers " + message);
         }
 
 
@@ -236,7 +236,7 @@ public class MainPresenter {
 
         @Override
         public void handleError(String message) {
-            view.handleError(message);
+            view.handleError("Failed to get following " + message);
         }
     }
 

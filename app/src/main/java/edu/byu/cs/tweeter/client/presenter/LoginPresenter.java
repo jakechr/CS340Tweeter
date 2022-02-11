@@ -1,7 +1,5 @@
 package edu.byu.cs.tweeter.client.presenter;
 
-import android.widget.EditText;
-
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleItemObserver;
@@ -35,7 +33,7 @@ public class LoginPresenter {
 
         @Override
         public void handleError(String message) {
-            view.displayErrorMessage(message);
+            view.displayErrorMessage("Failed to login " + message);
         }
     }
 

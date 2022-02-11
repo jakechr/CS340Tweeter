@@ -45,7 +45,7 @@ public class RegisterPresenter {
 
         @Override
         public void handleError(String message) {
-            view.displayErrorMessage(message);
+            view.displayErrorMessage("Failed to register user " + message);
         }
     }
 
