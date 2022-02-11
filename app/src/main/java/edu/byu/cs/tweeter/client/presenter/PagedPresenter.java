@@ -12,14 +12,11 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public abstract class PagedPresenter<T> extends BasePresenter<PagedView<T>> {
+public abstract class PagedPresenter<T> extends DescriptionPresenter<PagedView<T>> {
     private static final int PAGE_SIZE = 10;
-    User targetUser;
-    AuthToken authToken;
     T lastItem;
     boolean hasMorePages;
     boolean isLoading;
-    boolean isGettingUser;
     PagedService pagedService;
 
     public PagedPresenter(PagedView<T> view) {
@@ -39,10 +36,6 @@ public abstract class PagedPresenter<T> extends BasePresenter<PagedView<T>> {
         return isLoading;
     }
 
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
-
     public void loadMoreItems(User user) {
         if (!isLoading) {   // This guard is important for avoiding a race condition in the scrolling code.
             isLoading = true;
@@ -57,8 +50,6 @@ public abstract class PagedPresenter<T> extends BasePresenter<PagedView<T>> {
     }
 
     abstract void getItems(AuthToken authToken, User targetUser, int pageSize, T lastItem);
-
-    abstract String getDescription();
 
     public class GetUserObserver implements SimpleItemObserver<User> {
 
