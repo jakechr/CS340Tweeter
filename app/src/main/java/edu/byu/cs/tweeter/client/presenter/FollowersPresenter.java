@@ -22,32 +22,11 @@ public class FollowersPresenter extends PagedPresenter<User> {
 
     @Override
     void getItems(AuthToken authToken, User targetUser, int pageSize, User lastItem) {
-        followService.getFollowers(authToken, targetUser, pageSize, lastItem, new GetFollowersObserver());
+        followService.getFollowers(authToken, targetUser, pageSize, lastItem, new GetItemsObserver());
     }
 
     @Override
     String getDescription() {
-        return "Failed to get user ";
-    }
-
-    public class GetFollowersObserver implements PagedObserver<User> {
-
-        @Override
-        public void handleSuccess(List<User> followers, boolean hasMorePages) {
-            isLoading = false;
-            view.setLoadingStatus(false);
-
-            lastItem = (followers.size() > 0) ? followers.get(followers.size() - 1) : null;
-            setHasMorePages(hasMorePages);
-
-            view.addItems(followers);
-        }
-
-        @Override
-        public void handleError(String message) {
-            isLoading = false;
-            view.setLoadingStatus(false);
-            view.displayErrorMessage("Failed to get followers " + message);
-        }
+        return "Failed to get followers ";
     }
 }

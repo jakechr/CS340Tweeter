@@ -23,34 +23,12 @@ public class FeedPresenter extends PagedPresenter<Status> {
 
     @Override
     void getItems(AuthToken authToken, User targetUser, int pageSize, Status lastItem) {
-        statusService.loadMoreItems(Cache.getInstance().getCurrUserAuthToken(), targetUser, pageSize, lastItem, new GetFeedObserver());
+        statusService.loadMoreItems(Cache.getInstance().getCurrUserAuthToken(), targetUser, pageSize, lastItem, new GetItemsObserver());
     }
 
     @Override
     String getDescription() {
-        return "Failed to get user ";
+        return "Failed to get feed ";
     }
 
-
-
-    public class GetFeedObserver implements PagedObserver<Status> {
-
-        @Override
-        public void handleSuccess(List<Status> statuses, boolean hasMorePages) {
-            isLoading = false;
-            view.setLoadingStatus(false);
-
-            lastItem = (statuses.size() > 0) ? statuses.get(statuses.size() - 1) : null;
-            setHasMorePages(hasMorePages);
-            view.addItems(statuses);
-
-        }
-
-        @Override
-        public void handleError(String message) {
-            isLoading = false;
-            view.setLoadingStatus(false);
-            view.displayErrorMessage("Failed to get feed " + message);
-        }
-    }
 }

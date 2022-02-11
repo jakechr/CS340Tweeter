@@ -1,11 +1,15 @@
 package edu.byu.cs.tweeter.client.presenter;
 
+import java.util.List;
+
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.PagedService;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.PagedObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleItemObserver;
 import edu.byu.cs.tweeter.client.presenter.View.BaseView;
 import edu.byu.cs.tweeter.client.presenter.View.PagedView;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
+import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public abstract class PagedPresenter<T> extends BasePresenter<PagedView<T>> {
@@ -65,6 +69,26 @@ public abstract class PagedPresenter<T> extends BasePresenter<PagedView<T>> {
 
         @Override
         public void handleError(String message) {
+            view.displayErrorMessage("Failed to login " + message);
+        }
+    }
+
+    public class GetItemsObserver implements PagedObserver<T> {
+
+        @Override
+        public void handleSuccess(List<T> items, boolean hasMorePages) {
+            isLoading = false;
+            view.setLoadingStatus(false);
+
+            lastItem = (items.size() > 0) ? items.get(items.size() - 1) : null;
+            setHasMorePages(hasMorePages);
+            view.addItems(items);
+        }
+
+        @Override
+        public void handleError(String message) {
+            isLoading = false;
+            view.setLoadingStatus(false);
             view.displayErrorMessage(getDescription() + message);
         }
     }
