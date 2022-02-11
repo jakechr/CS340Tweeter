@@ -5,9 +5,9 @@ import java.util.List;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public interface PagedView<T> extends BaseView{
-    abstract void setLoadingStatus(boolean isLoading);
+    void setLoadingStatus(boolean isLoading);
 
-    abstract void addItems(List<T> items);
+    void addItems(List<T> items);
 
-    abstract void navigateToUser(User user);
+    void navigateToUser(User user);
 }

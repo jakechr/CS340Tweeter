@@ -28,8 +28,7 @@ public class UserService extends BaseService {
         // Send the login request.
         LoginTask loginTask = new LoginTask(userAlias,
                 password, new AuthenticationHandler(loginObserver));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(loginTask);
+        executeTask(loginTask);
     }
 
     public void register(Bitmap image, String firstName, String lastName, String alias, String password,
@@ -45,8 +44,7 @@ public class UserService extends BaseService {
         RegisterTask registerTask = new RegisterTask(firstName, lastName,
                 alias, password, imageBytesBase64, new AuthenticationHandler(registerObserver));
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(registerTask);
+        executeTask(registerTask);
     }
 
     public void logout(AuthToken currUserAuthToken, SimpleNotificationObserver logoutObserver) {
