@@ -1,17 +1,10 @@
 package edu.byu.cs.tweeter.client.model.service;
 
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.os.Message;
-
-import androidx.annotation.NonNull;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.Handler.AuthenticationHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.Handler.SimpleNotificationHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LoginTask;
