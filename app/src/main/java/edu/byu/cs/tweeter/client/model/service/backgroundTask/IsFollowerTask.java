@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import java.util.Random;
 
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.Handler.SimpleItemHandler;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -12,8 +13,6 @@ import edu.byu.cs.tweeter.model.domain.User;
  * Background task that determines if one user is following another.
  */
 public class IsFollowerTask extends AuthenticatedTask {
-
-    public static final String IS_FOLLOWER_KEY = "is-follower";
 
     /**
      * The alleged follower.
@@ -45,6 +44,6 @@ public class IsFollowerTask extends AuthenticatedTask {
 
     @Override
     protected void loadSuccessBundle(Bundle msgBundle) {
-        msgBundle.putBoolean(IS_FOLLOWER_KEY, isFollower);
+        msgBundle.putBoolean(SIMPLE_ITEM_KEY, isFollower);
     }
 }
