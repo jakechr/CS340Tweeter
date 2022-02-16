@@ -20,15 +20,21 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainPresenter extends BasePresenter<MainView> {
 
-    private FollowService followService;
-    private UserService userService;
+    private final FollowService followService;
+    private final UserService userService;
     private StatusService statusService;
 
     public MainPresenter(MainView view) {
         super(view);
         this.followService = new FollowService();
         this.userService = new UserService();
-        this.statusService = new StatusService();
+    }
+
+    protected StatusService getStatusService() {
+        if (statusService == null) {
+            statusService = new StatusService();
+        }
+        return new StatusService();
     }
 
     public void unfollow(User selectedUser) {
@@ -44,11 +50,13 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void logout() {
+        view.displayInfoMessage("Logging Out...");
         userService.logout(Cache.getInstance().getCurrUserAuthToken(), new LogoutObserver());
     }
 
     public void postStatus(Status newStatus) {
-        statusService.postStatus(Cache.getInstance().getCurrUserAuthToken(), newStatus, new PostStatusObserver());
+        view.displayInfoMessage("Posting Status...");
+        getStatusService().postStatus(Cache.getInstance().getCurrUserAuthToken(), newStatus, new PostStatusObserver());
 
     }
 
