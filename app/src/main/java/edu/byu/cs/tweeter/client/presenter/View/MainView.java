@@ -10,5 +10,6 @@ public interface MainView extends BaseView {
     void handlePostStatusSuccess();
     void resetFollowButton();
     void displayInfoMessage(String message);
+    void clearInfoMessage();
 
 }

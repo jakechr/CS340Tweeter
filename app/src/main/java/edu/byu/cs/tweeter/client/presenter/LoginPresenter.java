@@ -17,7 +17,7 @@ public class LoginPresenter extends AuthenticationPresenter{
 
     @Override
     String getDescription() {
-        return "Failed to login ";
+        return "Failed to login";
     }
 
     public void login(String userAlias, String password) {

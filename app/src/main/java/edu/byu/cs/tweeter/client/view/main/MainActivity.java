@@ -106,12 +106,8 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
 
                 if (followButton.getText().toString().equals(v.getContext().getString(R.string.following))) {
                     presenter.unfollow(selectedUser);
-
-                    Toast.makeText(MainActivity.this, "Removing " + selectedUser.getName() + "...", Toast.LENGTH_LONG).show();
                 } else {
                     presenter.follow(selectedUser);
-
-                    Toast.makeText(MainActivity.this, "Adding " + selectedUser.getName() + "...", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -154,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
             presenter.postStatus(newStatus);
         } catch (Exception ex) {
             Log.e(LOG_TAG, ex.getMessage(), ex);
-            Toast.makeText(this, "Failed to post the status because of exception: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+            displayErrorMessage("Failed to post the status because of exception: " + ex.getMessage());
         }
     }
 
@@ -194,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
 
     @Override
     public void handleLogoutSuccess() {
-        infoToast.cancel();
         logoutUser();
     }
 
@@ -223,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
 
     @Override
     public void handlePostStatusSuccess() {
-        infoToast.cancel();
         Toast.makeText(MainActivity.this, "Successfully Posted!", Toast.LENGTH_LONG).show();
     }
 
@@ -241,6 +235,11 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
     public void displayInfoMessage(String message) {
         infoToast = Toast.makeText(this, message, Toast.LENGTH_LONG);
         infoToast.show();
+    }
+
+    @Override
+    public void clearInfoMessage() {
+        infoToast.cancel();
     }
 
 }

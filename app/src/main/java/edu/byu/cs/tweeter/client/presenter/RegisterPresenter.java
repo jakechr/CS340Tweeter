@@ -29,7 +29,7 @@ public class RegisterPresenter extends AuthenticationPresenter {
 
     @Override
     String getDescription() {
-        return "Failed to register user ";
+        return "Failed to register user";
     }
 
     public void register(Bitmap image, String firstName, String lastName, String alias, String password) {
