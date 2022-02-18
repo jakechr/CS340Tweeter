@@ -14,7 +14,6 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
 
 public class MainPresenterUnitTest {
-    // -------------------------------- Still need to verify parameters ---------------------------
 
     private MainView mockView;
     private StatusService mockStatusService;
@@ -90,6 +89,7 @@ public class MainPresenterUnitTest {
         mainPresenterSpy.postStatus(mockStatus);
 
         Mockito.verify(mockView).displayInfoMessage("Posting Status...");
+        Mockito.verify(mockStatusService).postStatus(Mockito.eq(mockAuthToken), Mockito.eq(mockStatus), Mockito.notNull());
     }
 
     private void verifyErrorResult(String message) {
