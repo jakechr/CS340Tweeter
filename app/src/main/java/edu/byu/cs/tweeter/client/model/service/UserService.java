@@ -15,13 +15,19 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleNot
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class UserService extends BaseService {
+public class UserService {
+
+    private BaseService baseService;
+
+    public UserService() {
+        this.baseService = new BaseService();
+    }
 
     public void login(String userAlias, String password, SimpleItemObserver<User> loginObserver) {
         // Send the login request.
         LoginTask loginTask = new LoginTask(userAlias,
                 password, new AuthenticationHandler(loginObserver));
-        executeTask(loginTask);
+        baseService.executeTask(loginTask);
     }
 
     public void register(Bitmap image, String firstName, String lastName, String alias, String password,
@@ -37,11 +43,11 @@ public class UserService extends BaseService {
         RegisterTask registerTask = new RegisterTask(firstName, lastName,
                 alias, password, imageBytesBase64, new AuthenticationHandler(registerObserver));
 
-        executeTask(registerTask);
+        baseService.executeTask(registerTask);
     }
 
     public void logout(AuthToken currUserAuthToken, SimpleNotificationObserver logoutObserver) {
         LogoutTask logoutTask = new LogoutTask(currUserAuthToken, new SimpleNotificationHandler(logoutObserver));
-        executeTask(logoutTask);
+        baseService.executeTask(logoutTask);
     }
 }

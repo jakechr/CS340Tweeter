@@ -6,10 +6,16 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.Handler.SimpleItem
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleItemObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
-public class PagedService extends BaseService {
+public class PagedService {
+    protected BaseService baseService;
+
+    public PagedService() {
+        this.baseService = new BaseService();
+    }
+
 
     public void getUser(String userAlias, SimpleItemObserver<User> getUserObserver) {
         GetUserTask getUserTask = new GetUserTask(Cache.getInstance().getCurrUserAuthToken(), userAlias, new SimpleItemHandler(getUserObserver));
-        executeTask(getUserTask);
+        baseService.executeTask(getUserTask);
     }
 }
