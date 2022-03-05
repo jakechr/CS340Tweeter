@@ -22,45 +22,45 @@ public class FollowService extends PagedService {
     public void getFollowing(AuthToken currUserAuthToken, User user, int pageSize, User lastFollowee, PagedObserver<User> getFollowingObserver) {
         GetFollowingTask getFollowingTask = new GetFollowingTask(currUserAuthToken,
                 user, pageSize, lastFollowee, new PagedHandler<>(getFollowingObserver));
-        executeTask(getFollowingTask);
+        baseService.executeTask(getFollowingTask);
     }
 
     public void getFollowers(AuthToken currUserAuthToken, User user, int pageSize, User lastFollower, PagedObserver<User> getFollowersObserver) {
         GetFollowersTask getFollowersTask = new GetFollowersTask(currUserAuthToken,
                 user, pageSize, lastFollower, new PagedHandler<>(getFollowersObserver));
-        executeTask(getFollowersTask);
+        baseService.executeTask(getFollowersTask);
     }
 
     public void unfollow(AuthToken currUserAuthToken, User selectedUser, SimpleNotificationObserver unfollowObserver) {
         UnfollowTask unfollowTask = new UnfollowTask(currUserAuthToken,
                 selectedUser, new SimpleNotificationHandler(unfollowObserver));
-       executeTask(unfollowTask);
+       baseService.executeTask(unfollowTask);
     }
 
     public void follow(AuthToken currUserAuthToken, User selectedUser, SimpleNotificationObserver followObserver) {
         FollowTask followTask = new FollowTask(currUserAuthToken,
                 selectedUser, new SimpleNotificationHandler(followObserver));
-        executeTask(followTask);
+        baseService.executeTask(followTask);
     }
 
 
     public void isFollower(AuthToken currUserAuthToken, User selectedUser, User currUser, SimpleItemObserver<Boolean> isFollowerObserver) {
         IsFollowerTask isFollowerTask = new IsFollowerTask(currUserAuthToken,
                currUser, selectedUser, new SimpleItemHandler<>(isFollowerObserver));
-        executeTask(isFollowerTask);
+        baseService.executeTask(isFollowerTask);
     }
 
     public void getFollowersCount(AuthToken currUserAuthToken, User selectedUser, SimpleItemObserver<Integer> getFollowersCountObserver) {
         GetFollowersCountTask followersCountTask = new GetFollowersCountTask(currUserAuthToken,
                 selectedUser, new SimpleItemHandler<>(getFollowersCountObserver));
-        executeTask(followersCountTask);
+        baseService.executeTask(followersCountTask);
     }
 
 
     public void getFollowingCount(AuthToken currUserAuthToken, User selectedUser, SimpleItemObserver<Integer> getFollowingCountObserver) {
         GetFollowingCountTask followingCountTask = new GetFollowingCountTask(currUserAuthToken,
                 selectedUser, new SimpleItemHandler<>(getFollowingCountObserver));
-        executeTask(followingCountTask);
+        baseService.executeTask(followingCountTask);
     }
 
 }
