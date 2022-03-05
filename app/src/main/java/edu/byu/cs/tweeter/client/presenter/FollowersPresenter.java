@@ -27,6 +27,6 @@ public class FollowersPresenter extends PagedPresenter<User> {
 
     @Override
     String getDescription() {
-        return "Failed to get followers ";
+        return "Failed to get followers";
     }
 }

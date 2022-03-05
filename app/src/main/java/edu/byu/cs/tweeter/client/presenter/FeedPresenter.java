@@ -28,7 +28,7 @@ public class FeedPresenter extends PagedPresenter<Status> {
 
     @Override
     String getDescription() {
-        return "Failed to get feed ";
+        return "Failed to get feed";
     }
 
 }

@@ -20,22 +20,30 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainPresenter extends BasePresenter<MainView> {
 
-    private FollowService followService;
-    private UserService userService;
+    private final FollowService followService;
+    private final UserService userService;
     private StatusService statusService;
 
     public MainPresenter(MainView view) {
         super(view);
         this.followService = new FollowService();
         this.userService = new UserService();
-        this.statusService = new StatusService();
+    }
+
+    protected StatusService getStatusService() {
+        if (statusService == null) {
+            statusService = new StatusService();
+        }
+        return new StatusService();
     }
 
     public void unfollow(User selectedUser) {
+        view.displayInfoMessage("Removing " + selectedUser.getName() + "...");
         followService.unfollow(Cache.getInstance().getCurrUserAuthToken(), selectedUser, new UnfollowObserver());
     }
 
     public void follow(User selectedUser) {
+        view.displayInfoMessage("Adding " + selectedUser.getName() + "...");
         followService.follow(Cache.getInstance().getCurrUserAuthToken(), selectedUser, new FollowObserver());
     }
 
@@ -44,11 +52,13 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void logout() {
+        view.displayInfoMessage("Logging Out...");
         userService.logout(Cache.getInstance().getCurrUserAuthToken(), new LogoutObserver());
     }
 
     public void postStatus(Status newStatus) {
-        statusService.postStatus(Cache.getInstance().getCurrUserAuthToken(), newStatus, new PostStatusObserver());
+        view.displayInfoMessage("Posting Status...");
+        getStatusService().postStatus(Cache.getInstance().getCurrUserAuthToken(), newStatus, new PostStatusObserver());
 
     }
 
@@ -142,6 +152,7 @@ public class MainPresenter extends BasePresenter<MainView> {
         @Override
         public void handleError(String message) {
             view.displayErrorMessage(description + message);
+            view.clearInfoMessage();
         }
     }
 
@@ -149,7 +160,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     public class UnfollowObserver extends BaseMainObserver implements SimpleNotificationObserver {
 
         public UnfollowObserver() {
-            super("Failed to unfollow user ");
+            super("Failed to unfollow user");
         }
 
         @Override
@@ -162,7 +173,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     public class FollowObserver extends BaseMainObserver implements SimpleNotificationObserver {
 
         public FollowObserver() {
-            super("Failed to get follow user ");
+            super("Failed to get follow user");
         }
 
         @Override
@@ -175,7 +186,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     public class IsFollowerObserver extends BaseMainObserver implements SimpleItemObserver<Boolean> {
 
         public IsFollowerObserver() {
-            super("Failed to get check if user is follower ");
+            super("Failed to get check if user is follower");
         }
 
         @Override
@@ -187,11 +198,12 @@ public class MainPresenter extends BasePresenter<MainView> {
     public class LogoutObserver extends BaseMainObserver implements SimpleNotificationObserver {
 
         public LogoutObserver() {
-            super("Failed to logout ");
+            super("Failed to logout");
         }
 
         @Override
         public void handleSuccess() {
+            view.clearInfoMessage();
             view.handleLogoutSuccess();
         }
     }
@@ -199,11 +211,12 @@ public class MainPresenter extends BasePresenter<MainView> {
     public class PostStatusObserver extends BaseMainObserver implements SimpleNotificationObserver {
 
         public PostStatusObserver() {
-            super("Failed to post status ");
+            super("Failed to post status");
         }
 
         @Override
         public void handleSuccess() {
+            view.clearInfoMessage();
             view.handlePostStatusSuccess();
         }
     }
@@ -211,7 +224,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     public class GetFollowersCountObserver extends BaseMainObserver implements SimpleItemObserver<Integer> {
 
         public GetFollowersCountObserver() {
-            super("Failed to get followers ");
+            super("Failed to get followers");
         }
 
         @Override
@@ -223,7 +236,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     public class GetFollowingCountObserver extends BaseMainObserver implements SimpleItemObserver<Integer> {
 
         public GetFollowingCountObserver() {
-            super("Failed to get following ");
+            super("Failed to get following");
         }
 
         @Override

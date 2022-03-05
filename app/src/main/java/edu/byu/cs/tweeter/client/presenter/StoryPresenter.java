@@ -27,7 +27,7 @@ public class StoryPresenter extends PagedPresenter<Status> {
 
     @Override
     String getDescription() {
-        return "Failed to get story ";
+        return "Failed to get story";
     }
 
 }

@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
 
     public static final String CURRENT_USER_KEY = "CurrentUser";
 
-    private Toast logOutToast;
-    private Toast postingToast;
+    private Toast infoToast;
     private User selectedUser;
     private TextView followeeCount;
     private TextView followerCount;
@@ -107,12 +106,8 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
 
                 if (followButton.getText().toString().equals(v.getContext().getString(R.string.following))) {
                     presenter.unfollow(selectedUser);
-
-                    Toast.makeText(MainActivity.this, "Removing " + selectedUser.getName() + "...", Toast.LENGTH_LONG).show();
                 } else {
                     presenter.follow(selectedUser);
-
-                    Toast.makeText(MainActivity.this, "Adding " + selectedUser.getName() + "...", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -128,9 +123,6 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.logoutMenu) {
-            logOutToast = Toast.makeText(this, "Logging Out...", Toast.LENGTH_LONG);
-            logOutToast.show();
-
             presenter.logout();
             return true;
         } else {
@@ -150,8 +142,6 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
 
     @Override
     public void onStatusPosted(String post) {
-        postingToast = Toast.makeText(this, "Posting Status...", Toast.LENGTH_LONG);
-        postingToast.show();
 
         try {
             Status newStatus = new Status(post, presenter.getCurrUser(), presenter.getFormattedDateTime(), presenter.parseURLs(post),
@@ -160,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
             presenter.postStatus(newStatus);
         } catch (Exception ex) {
             Log.e(LOG_TAG, ex.getMessage(), ex);
-            Toast.makeText(this, "Failed to post the status because of exception: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+            displayErrorMessage("Failed to post the status because of exception: " + ex.getMessage());
         }
     }
 
@@ -200,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
 
     @Override
     public void handleLogoutSuccess() {
-        logOutToast.cancel();
         logoutUser();
     }
 
@@ -229,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
 
     @Override
     public void handlePostStatusSuccess() {
-        postingToast.cancel();
         Toast.makeText(MainActivity.this, "Successfully Posted!", Toast.LENGTH_LONG).show();
     }
 
@@ -241,6 +229,17 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
     @Override
     public void resetFollowButton() {
         followButton.setEnabled(true);
+    }
+
+    @Override
+    public void displayInfoMessage(String message) {
+        infoToast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        infoToast.show();
+    }
+
+    @Override
+    public void clearInfoMessage() {
+        infoToast.cancel();
     }
 
 }

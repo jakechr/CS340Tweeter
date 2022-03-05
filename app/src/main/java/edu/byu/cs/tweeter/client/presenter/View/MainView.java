@@ -9,5 +9,7 @@ public interface MainView extends BaseView {
     void handleIsFollowerSuccess(boolean isFollower);
     void handlePostStatusSuccess();
     void resetFollowButton();
+    void displayInfoMessage(String message);
+    void clearInfoMessage();
 
 }

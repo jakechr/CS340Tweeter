@@ -60,7 +60,7 @@ public abstract class PagedPresenter<T> extends DescriptionPresenter<PagedView<T
 
         @Override
         public void handleError(String message) {
-            view.displayErrorMessage("Failed to login " + message);
+            view.displayErrorMessage("Failed to login" + message);
         }
     }
 
